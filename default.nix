@@ -8,7 +8,8 @@
 # nix build --file ./default.nix --argstr apps "APP,APP,..." && ./result
 
 { nixpkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") { }
-, apps
+, apps ? null
+, pythonPackages ? null
 , command ? null
 }:
 
@@ -22,13 +23,36 @@ let
     splitString
     ;
 
-  # Doesn't work with package sets
-  appsList = map (x: nixpkgs.${x}) (splitString "," apps);
+  inherit (nixpkgs.python3Packages)
+    makePythonPath
+    ;
+
+  appsList =
+    if apps != null then
+      map (x: nixpkgs.${x}) (splitString "," apps)
+    else [ ];
+  appsPath =
+    if apps != null then
+      "export PATH=${makeBinPath appsList}:$PATH"
+    else
+      "";
+
+  pythonPackagesList =
+    if pythonPackages != null then
+      map (x: nixpkgs.python3Packages.${x}) (splitString "," pythonPackages)
+    else [ ];
+  pythonPath =
+    if pythonPackages != null then
+      "export PYTHONPATH=${makePythonPath pythonPackagesList}:$PYTHONPATH"
+    else
+      "";
+
   runCommand = if command != null then "-c '${command}'" else "";
 
-  activate = writeShellScript "activate-apps" ''
+  activate = writeShellScript "app-shell" ''
     export PS1="\[\033[1m\][app-shell]\[\033[m\]\040\w >\040"
-    export PATH=${makeBinPath appsList}:$PATH
+    ${appsPath}
+    ${pythonPath}
 
     ${nixpkgs.lib.getExe nixpkgs.bash} --norc ${runCommand}
   '';

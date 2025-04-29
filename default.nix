@@ -24,7 +24,7 @@ let
 
   # Doesn't work with package sets
   appsList = map (x: nixpkgs.${x}) (splitString "," apps);
-  runCommand = if command != null then "-c ${command}" else ""; 
+  runCommand = if command != null then "-c '${command}'" else "";
 
   activate = writeShellScript "activate-apps" ''
     export PS1="\[\033[1m\][app-shell]\[\033[m\]\040\w >\040"

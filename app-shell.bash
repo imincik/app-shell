@@ -6,14 +6,15 @@ script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
 usage() {
   cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") -a "app1,app2,..." -c "command"
+Usage: $(basename "${BASH_SOURCE[0]}") --app app1,app2,... -- [command]
 
 Create simple shell environment containing specified applications.
 
 Available options:
 -h, --help      Print this help and exit.
 -a, --apps      Comma separated list of apps to activate in shell.
--c, --command   Command to run once shell is ready.
+
+command         Command to run in shell.
 EOF
   exit
 }
@@ -30,8 +31,6 @@ die() {
 }
 
 parse_params() {
-  command=""
-  
   while :; do
     case "${1-}" in
     -h | --help) usage ;;
@@ -39,17 +38,14 @@ parse_params() {
       apps="${2-}"
       shift
       ;;
-    -c | --command)
-      command="${2-}"
-      shift
+    --)
+      command=("${@:2}")
       ;;
     -?*) die "Unknown option: $1" ;;
     *) break ;;
     esac
     shift
   done
-
-  args=("$@")
 
   # Check required parameters
   [[ -z "${apps-}" ]] && die "Missing list of apps."
@@ -59,10 +55,9 @@ parse_params() {
 
 parse_params "$@"
 
-
 # Create app shell
 if [ -n "${command-}" ]; then
-  activate=$(nix build --print-out-paths --file default.nix --argstr apps "$apps" --argstr command "$command")
+  activate=$(nix build --print-out-paths --file default.nix --argstr apps "$apps" --argstr command "${command[*]}")
 else
   activate=$(nix build --print-out-paths --file default.nix --argstr apps "$apps")
 fi

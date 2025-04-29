@@ -13,7 +13,6 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       nixpkgsFor = forAllSystems (system: import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
       });
 
     in

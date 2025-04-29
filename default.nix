@@ -7,29 +7,31 @@
 # or
 # nix build --file ./default.nix --argstr apps "APP,APP,..." && ./result
 
-{ nixpkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") { }
+{ nixpkgs ? "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz"
 , apps ? null
 , pythonPackages ? null
 , command ? null
 }:
 
 let
-  inherit (nixpkgs)
+  pkgs = import (fetchTarball nixpkgs) { };
+
+  inherit (pkgs)
     writeShellScript
     ;
 
-  inherit (nixpkgs.lib)
+  inherit (pkgs.lib)
     makeBinPath
     splitString
     ;
 
-  inherit (nixpkgs.python3Packages)
+  inherit (pkgs.python3Packages)
     makePythonPath
     ;
 
   appsList =
     if apps != null then
-      map (x: nixpkgs.${x}) (splitString "," apps)
+      map (x: pkgs.${x}) (splitString "," apps)
     else [ ];
   appsPath =
     if apps != null then
@@ -39,7 +41,7 @@ let
 
   pythonPackagesList =
     if pythonPackages != null then
-      map (x: nixpkgs.python3Packages.${x}) (splitString "," pythonPackages)
+      map (x: pkgs.python3Packages.${x}) (splitString "," pythonPackages)
     else [ ];
   pythonPath =
     if pythonPackages != null then
@@ -54,7 +56,7 @@ let
     ${appsPath}
     ${pythonPath}
 
-    ${nixpkgs.lib.getExe nixpkgs.bash} --norc ${runCommand}
+    ${pkgs.lib.getExe pkgs.bash} --norc ${runCommand}
   '';
 
 in

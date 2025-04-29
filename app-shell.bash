@@ -6,16 +6,21 @@ script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
 usage() {
   cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") --app app1,app2,... -- [command]
+Usage: $(basename "${BASH_SOURCE[0]}") [options] -- [command]
 
 Create simple shell environment containing specified applications.
 
 Available options:
--h, --help            Print this help and exit.
+-n, --nixpkgs         Nixpkgs tarball to use.
+                      Default:
+                      https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz
+
 -a, --apps            Comma separated list of apps to enable on PATH.
 -p, --python-packages Comma separated list of Python packages to
                       enable on PYTHONPATH.
+
 -v, --verbose         Run in verbose mode.
+-h, --help            Print this help and exit.
 
 command               Command to execute in shell.
 EOF
@@ -52,6 +57,10 @@ parse_params() {
       python_packages="${2-}"
       shift
       ;;
+    -n| --nixpkgs)
+      nixpkgs="${2-}"
+      shift
+      ;;
     --)
       command=("${@:2}")
       ;;
@@ -67,6 +76,10 @@ parse_params "$@"
 
 # Create app shell command
 cmd="nix build --print-out-paths --file default.nix"
+
+if [ -n "${nixpkgs-}" ]; then
+  cmd+=" --argstr nixpkgs $nixpkgs"
+fi
 
 if [ -n "${apps-}" ]; then
   cmd+=" --argstr apps $apps"

@@ -2,6 +2,7 @@
 
 set -Eeuo pipefail
 
+# shellcheck disable=SC2034
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
 usage() {
@@ -26,6 +27,8 @@ command               Command to execute in shell.
 EOF
   exit
 }
+
+app_shell_nix_dir=${APP_SHELL_NIX_DIR:-.}
 
 verbose_msg() {
   if [ -n "${verbose-}" ]; then
@@ -75,13 +78,13 @@ parse_params() {
 parse_params "$@"
 
 # Create app shell command
-cmd="nix build --print-out-paths"
+cmd="nix build --print-out-paths --no-link"
 
 if [ -n "${verbose-}" ]; then
   cmd+=" --print-build-logs"
 fi
 
-cmd+=" --file default.nix"
+cmd+=" --file ${app_shell_nix_dir}/default.nix"
 
 if [ -n "${nixpkgs-}" ]; then
   cmd+=" --argstr nixpkgs $nixpkgs"

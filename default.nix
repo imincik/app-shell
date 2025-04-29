@@ -49,7 +49,7 @@ let
 
   runCommand = if command != null then "-c '${command}'" else "";
 
-  activate = writeShellScript "app-shell" ''
+  activate = writeShellScript "app-shell-run" ''
     export PS1="\[\033[1m\][app-shell]\[\033[m\]\040\w >\040"
     ${appsPath}
     ${pythonPath}

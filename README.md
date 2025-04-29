@@ -27,3 +27,8 @@ app-shell --apps qgis,gdal --python-packages numpy,pyproj
 ```bash
 app-shell --apps qgis,gdal --python-packages numpy,pyproj -- qgis
 ```
+
+
+## Documentation
+
+* Run `app-shell --help` to learn more.

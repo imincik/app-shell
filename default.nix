@@ -1,5 +1,3 @@
-# Create simple shell environment containing specified applications.
-
 # USAGE:
 # nix-build --argstr apps "APP,APP,..." && ./result
 # or

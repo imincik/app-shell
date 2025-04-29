@@ -1,8 +1,17 @@
 # App shell
 
-Create simple shell environment containing specified applications.
+Create a temporary shell environment containing specified applications.
+
 
 ## Quick start
+
+* Install Nix
+  [(learn more about this installer)](https://zero-to-nix.com/start/install)
+```bash
+curl --proto '=https' --tlsv1.2 -sSf \
+    -L https://install.determinate.systems/nix \
+    | sh -s -- install
+  ```
 
 * Install app-shell
 

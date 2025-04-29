@@ -23,7 +23,7 @@ Available options:
 
 -p, --python-packages Comma separated list of Python packages to enable
                       on PYTHONPATH.
-                      Example: numpy,pyproj
+                      Example: python3Packages.numpy,python3Packages.pyproj
 
 -l, --libs            Comma separated list of libraries to enable
                       on LD_LIBRARY_PATH.

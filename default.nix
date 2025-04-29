@@ -27,7 +27,7 @@ let
     ;
 
   inherit (pkgs.python3Packages)
-    makePythonPath
+    makePythonPath  # FIXME: doesn't work for other Python versions
     ;
 
   stringToPackage = str:
@@ -45,7 +45,7 @@ let
 
   pythonPackagesList =
     if pythonPackages != null then
-      map (x: pkgs.python3Packages.${x}) (splitString "," pythonPackages)
+      map (x: stringToPackage x ) (splitString "," pythonPackages)
     else [ ];
   pythonPath =
     if pythonPackages != null then

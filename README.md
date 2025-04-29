@@ -19,13 +19,13 @@ app-shell --apps qgis,gdal
 * Add Python with some modules as well
 
 ```bash
-app-shell --apps qgis,gdal --python-packages numpy,pyproj
+app-shell --apps qgis,gdal --python-packages python3Packages.numpy,python3Packages.pyproj
 ```
 
 * Finally, launch QGIS on start
 
 ```bash
-app-shell --apps qgis,gdal --python-packages numpy,pyproj -- qgis
+app-shell --apps qgis,gdal --python-packages python3Packages.numpy,python3Packages.pyproj -- qgis
 ```
 
 

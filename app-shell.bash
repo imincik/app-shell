@@ -9,7 +9,7 @@ usage() {
   cat <<EOF
 Usage: $(basename "${BASH_SOURCE[0]}") [options] -- [command]
 
-Create simple shell environment containing specified applications.
+Create a temporary shell environment containing specified applications.
 
 Available options:
 -n, --nixpkgs         Nixpkgs tarball to use.

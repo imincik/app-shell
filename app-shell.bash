@@ -18,7 +18,7 @@ Available options:
                       Example:
                       https://github.com/NixOS/nixpkgs/archive/nixos-24.11.tar.gz
 
--a, --apps            Comma separated list of apps to enable on PATH.
+-a, --apps            Comma separated list of applications to enable on PATH.
                       Example: gdal,qgis
 
 -p, --python-packages Comma separated list of Python packages to enable

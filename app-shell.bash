@@ -15,11 +15,20 @@ Available options:
 -n, --nixpkgs         Nixpkgs tarball to use.
                       Default:
                       https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz
+                      Example:
+                      https://github.com/NixOS/nixpkgs/archive/nixos-24.11.tar.gz
 
 -a, --apps            Comma separated list of apps to enable on PATH.
--p, --python-packages Comma separated list of Python packages to
-                      enable on PYTHONPATH.
+                      Example: gdal,qgis
 
+-p, --python-packages Comma separated list of Python packages to enable
+                      on PYTHONPATH.
+                      Example: numpy,pyproj
+
+-l, --libs            Comma separated list of libraries to enable
+                      on LD_LIBRARY_PATH.
+                      Example: stdenv.cc.cc,libz
+                      
 -v, --verbose         Run in verbose mode.
 -h, --help            Print this help and exit.
 
@@ -52,6 +61,10 @@ parse_params() {
     case "${1-}" in
     -h | --help) usage ;;
     -v | --verbose) verbose=1;;
+    -n| --nixpkgs)
+      nixpkgs="${2-}"
+      shift
+      ;;
     -a | --apps)
       apps="${2-}"
       shift
@@ -60,8 +73,8 @@ parse_params() {
       python_packages="${2-}"
       shift
       ;;
-    -n| --nixpkgs)
-      nixpkgs="${2-}"
+    -l| --libs)
+      libs="${2-}"
       shift
       ;;
     --)
@@ -96,6 +109,10 @@ fi
 
 if [ -n "${python_packages-}" ]; then
   cmd+=" --argstr pythonPackages $python_packages"
+fi
+
+if [ -n "${libs-}" ]; then
+  cmd+=" --argstr libs $libs"
 fi
 
 if [ -n "${command-}" ]; then

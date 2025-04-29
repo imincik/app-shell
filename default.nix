@@ -8,6 +8,7 @@
 { nixpkgs ? "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz"
 , apps ? null
 , pythonPackages ? null
+, libs ? null
 , command ? null
 }:
 
@@ -20,16 +21,21 @@ let
 
   inherit (pkgs.lib)
     makeBinPath
+    makeLibraryPath
     splitString
+    getAttrFromPath
     ;
 
   inherit (pkgs.python3Packages)
     makePythonPath
     ;
 
+  stringToPackage = str:
+    getAttrFromPath (splitString "." str) pkgs;
+
   appsList =
     if apps != null then
-      map (x: pkgs.${x}) (splitString "," apps)
+      map (x: stringToPackage x) (splitString "," apps)
     else [ ];
   appsPath =
     if apps != null then
@@ -47,12 +53,23 @@ let
     else
       "";
 
+  libsList =
+    if libs != null then
+      map (x: stringToPackage x) (splitString "," libs)
+    else [ ];
+  ldLibraryPath =
+    if libs != null then
+      "export LD_LIBRARY_PATH=${makeLibraryPath libsList}:$LD_LIBRARY_PATH"
+    else
+      "";
+
   runCommand = if command != null then "-c '${command}'" else "";
 
   activate = writeShellScript "app-shell-run" ''
     export PS1="\[\033[1m\][app-shell]\[\033[m\]\040\w >\040"
     ${appsPath}
     ${pythonPath}
+    ${ldLibraryPath}
 
     ${pkgs.lib.getExe pkgs.bash} --norc ${runCommand}
   '';

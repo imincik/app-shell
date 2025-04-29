@@ -75,7 +75,13 @@ parse_params() {
 parse_params "$@"
 
 # Create app shell command
-cmd="nix build --print-out-paths --file default.nix"
+cmd="nix build --print-out-paths"
+
+if [ -n "${verbose-}" ]; then
+  cmd+=" --print-build-logs"
+fi
+
+cmd+=" --file default.nix"
 
 if [ -n "${nixpkgs-}" ]; then
   cmd+=" --argstr nixpkgs $nixpkgs"

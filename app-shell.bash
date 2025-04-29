@@ -28,7 +28,7 @@ Available options:
 -l, --libs            Comma separated list of libraries to enable
                       on LD_LIBRARY_PATH.
                       Example: stdenv.cc.cc,libz
-                      
+
 -v, --verbose         Run in verbose mode.
 -h, --help            Print this help and exit.
 

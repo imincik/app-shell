@@ -94,7 +94,7 @@ parse_params "$@"
 cmd="nix build --print-out-paths --no-link"
 
 if [ -n "${verbose-}" ]; then
-  cmd+=" --print-build-logs"
+  cmd+=" --print-build-logs --show-trace"
 fi
 
 cmd+=" --file ${app_shell_nix_dir}/app-shell.nix"

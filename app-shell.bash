@@ -97,7 +97,7 @@ if [ -n "${verbose-}" ]; then
   cmd+=" --print-build-logs"
 fi
 
-cmd+=" --file ${app_shell_nix_dir}/default.nix"
+cmd+=" --file ${app_shell_nix_dir}/app-shell.nix"
 
 if [ -n "${nixpkgs-}" ]; then
   cmd+=" --argstr nixpkgs $nixpkgs"

@@ -44,7 +44,7 @@
               installPhase = ''
                 mkdir -p $out/bin $out/share/nix
 
-                cp -a $src/default.nix $out/share/nix
+                cp -a $src/app-shell.nix $out/share/nix
 
                 cp $src/app-shell.bash $out/bin/app-shell
                 chmod +x $out/bin/app-shell

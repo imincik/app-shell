@@ -1,9 +1,9 @@
 # USAGE:
 # nix-build --argstr apps "APP,APP,..." && ./result
 # or
-# $(nix build --print-out-paths --file ./default.nix --argstr apps "APP,APP,...")
+# $(nix build --print-out-paths --file ./app-shell.nix --argstr apps "APP,APP,...")
 # or
-# nix build --file ./default.nix --argstr apps "APP,APP,..." && ./result
+# nix build --file ./app-shell.nix --argstr apps "APP,APP,..." && ./result
 
 { nixpkgs ? "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz"
 , apps ? null

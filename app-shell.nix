@@ -9,6 +9,7 @@
 , apps ? null
 , pythonPackages ? null
 , libs ? null
+, includeLibs ? null
 , command ? null
 }:
 
@@ -20,10 +21,11 @@ let
     ;
 
   inherit (pkgs.lib)
+    getAttrFromPath
     makeBinPath
+    makeIncludePath
     makeLibraryPath
     splitString
-    getAttrFromPath
     ;
 
   inherit (pkgs.python3Packages)
@@ -63,6 +65,16 @@ let
     else
       "";
 
+  includeLibsList =
+    if includeLibs != null then
+      map (x: stringToPackage x) (splitString "," includeLibs)
+    else [ ];
+  includePath =
+    if includeLibs != null then
+      "export C_INCLUDE_PATH=${makeIncludePath includeLibsList}:$C_INCLUDE_PATH"
+    else
+      "";
+
   runCommand = if command != null then "-c '${command}'" else "";
 
   activate = writeShellScript "app-shell-run" ''
@@ -70,6 +82,7 @@ let
     ${appsPath}
     ${pythonPath}
     ${ldLibraryPath}
+    ${includePath}
 
     ${pkgs.lib.getExe pkgs.bash} --norc ${runCommand}
   '';

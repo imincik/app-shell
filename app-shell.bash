@@ -24,7 +24,7 @@ Available options:
 C language:
 
 -L, --libs            Comma separated list of libraries to enable
-                      on LD_LIBRARY_PATH.
+                      on LIBRARY_PATH and LD_LIBRARY_PATH.
                       Example: stdenv.cc.cc,zlib
 
 -I, --include-libs    Comma separated list of libraries to enable

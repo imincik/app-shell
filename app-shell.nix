@@ -59,9 +59,11 @@ let
     if libs != null then
       map (x: stringToPackage x) (splitString "," libs)
     else [ ];
-  ldLibraryPath =
-    if libs != null then
-      "export LD_LIBRARY_PATH=${makeLibraryPath libsList}:$LD_LIBRARY_PATH"
+  libraryPath =
+    if libs != null then ''
+      export LIBRARY_PATH=${makeLibraryPath libsList}:$LIBRARY_PATH
+      export LD_LIBRARY_PATH=${makeLibraryPath libsList}:$LD_LIBRARY_PATH
+    ''
     else
       "";
 
@@ -81,7 +83,7 @@ let
     export PS1="\[\033[1m\][app-shell]\[\033[m\]\040\w >\040"
     ${appsPath}
     ${pythonPath}
-    ${ldLibraryPath}
+    ${libraryPath}
     ${includePath}
 
     ${pkgs.lib.getExe pkgs.bash} --norc ${runCommand}

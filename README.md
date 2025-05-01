@@ -77,5 +77,5 @@ derivations. It does a lot of magic and populates the environment with a lot
 of unnecessary content (packages, shell environment variables and functions).
 
 `app-shell` is much more simple, cleaner and lighter. It only fetches required
-packages to the `/nix/store` and propagates them to the environment via relevant
+packages to the `/nix/store` and propagates them via relevant
 environment variables.

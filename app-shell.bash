@@ -12,6 +12,7 @@ Usage: $(basename "${BASH_SOURCE[0]}") [options] -- [command]
 Create a temporary shell environment containing specified applications.
 
 Available options:
+
 -n, --nixpkgs         Nixpkgs tarball to use.
                       Default:
                         https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz
@@ -21,17 +22,17 @@ Available options:
 -a, --apps            Comma separated list of applications to enable on PATH.
                       Example: gdal,qgis
 
-C language:
+C language support:
 
 -L, --libs            Comma separated list of libraries to enable
-                      on LIBRARY_PATH and LD_LIBRARY_PATH.
-                      Example: stdenv.cc.cc,zlib
+                      on LIBRARY_PATH, CMAKE_LIBRARY_PATH and LD_LIBRARY_PATH.
+                      Example: stdenv.cc.cc,curl,zlib
 
 -I, --include-libs    Comma separated list of libraries to enable
-                      on C_INCLUDE_PATH.
-                      Example: zlib
+                      on C_INCLUDE_PATH and CMAKE_INCLUDE_PATH.
+                      Example: curl,zlib
 
-Python language:
+Python language support:
 
 -p, --python-packages Comma separated list of Python packages to enable
                       on PYTHONPATH.

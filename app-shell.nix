@@ -25,6 +25,7 @@ let
     makeBinPath
     makeIncludePath
     makeLibraryPath
+    makeSearchPath
     splitString
     ;
 
@@ -60,9 +61,11 @@ let
       map (x: stringToPackage x) (splitString "," libs)
     else [ ];
   libraryPath =
+    # TODO: export PKG_CONFIG_PATH=${makeSearchPath "lib/pkgconfig" libsList}:${makeSearchPath "share/pkgconfig" libsList}:$PKG_CONFIG_PATH
     if libs != null then ''
       export LIBRARY_PATH=${makeLibraryPath libsList}:$LIBRARY_PATH
       export LD_LIBRARY_PATH=${makeLibraryPath libsList}:$LD_LIBRARY_PATH
+      export CMAKE_LIBRARY_PATH=${makeLibraryPath libsList}:$CMAKE_LIBRARY_PATH
     ''
     else
       "";
@@ -72,8 +75,10 @@ let
       map (x: stringToPackage x) (splitString "," includeLibs)
     else [ ];
   includePath =
-    if includeLibs != null then
-      "export C_INCLUDE_PATH=${makeIncludePath includeLibsList}:$C_INCLUDE_PATH"
+    if includeLibs != null then ''
+      export C_INCLUDE_PATH=${makeIncludePath includeLibsList}:$C_INCLUDE_PATH
+      export CMAKE_INCLUDE_PATH=${makeIncludePath includeLibsList}:$CMAKE_INCLUDE_PATH
+    ''
     else
       "";
 

@@ -12,6 +12,7 @@ echo -e "\nTest --python-packages option ..."
 
 echo -e "\nTest --libs option ..."
 ../app-shell.bash --libs stdenv.cc.cc,libz -- env | grep LD_LIBRARY_PATH  | grep "gcc"
+../app-shell.bash --apps pkg-config --libs curl -- pkg-config --libs libcurl | grep "\-lcurl"
 
 echo -e "\nTest --include-libs option ..."
 pushd include-libs

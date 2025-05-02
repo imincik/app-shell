@@ -25,7 +25,8 @@ Available options:
 C language support:
 
 -L, --libs            Comma separated list of libraries to enable
-                      on LIBRARY_PATH, CMAKE_LIBRARY_PATH and LD_LIBRARY_PATH.
+                      on LIBRARY_PATH, CMAKE_LIBRARY_PATH, LD_LIBRARY_PATH and
+                      PKG_CONFIG_PATH.
                       Example: stdenv.cc.cc,curl,zlib
 
 -I, --include-libs    Comma separated list of libraries to enable

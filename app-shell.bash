@@ -13,11 +13,12 @@ Create a temporary shell environment containing specified applications.
 
 Available options:
 
--n, --nixpkgs         Nixpkgs tarball to use.
+-n, --nixpkgs         Nixpkgs tarball to use, or an absolute path to a nixpkgs checkout.
                       Default:
                         https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz
-                      Example:
+                      Examples:
                         https://github.com/NixOS/nixpkgs/archive/nixos-24.11.tar.gz
+                        /home/user/dev/my-nixpkgs
 
 -a, --apps            Comma separated list of applications to enable on PATH.
                       Example: gdal,qgis

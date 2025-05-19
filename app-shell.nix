@@ -14,7 +14,8 @@
 }:
 
 let
-  pkgs = import (fetchTarball nixpkgs) { };
+  nixpkgsFetched = if (builtins.substring 0 1 nixpkgs) == "/" then nixpkgs else (fetchTarball nixpkgs);
+  pkgs = import nixpkgsFetched { };
 
   inherit (pkgs)
     writeShellScript

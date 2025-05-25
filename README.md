@@ -15,9 +15,35 @@ curl --proto '=https' --tlsv1.2 -sSf \
 
 * Install app-shell
 
-```bash
-  nix profile install github:imincik/app-shell#app-shell
-```
+  * Using Flakes:
+
+    ```bash
+      nix profile install github:imincik/app-shell#app-shell
+    ```
+
+  * Using [npins](https://github.com/andir/npins):
+
+    1. Add the repository as a dependency:
+
+      ```bash
+        npins add github -b master imincik app-shell
+      ```
+
+    1. Add the package:
+
+      ```nix
+        # configuration.nix
+        let
+          sources = import ./npins;
+          app-shell = pkgs.callPackage "${sources.app-shell}/package.nix" { };
+        in
+        {
+          # add to system packages, using home-manager, ...
+          environment.systemPackages = [
+            app-shell
+          ];
+        }
+      ```
 
 * Create shell containing QGIS and GDAL apps
 

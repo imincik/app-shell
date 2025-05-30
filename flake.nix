@@ -29,7 +29,7 @@
               pname = "app-shell";
               version = "0.1.0";
 
-              src = ./.;
+              src = self;
 
               unpackPhase = "true";
               buildPhase = "true";

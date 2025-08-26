@@ -95,7 +95,7 @@ let
     ${libraryPath}
     ${includePath}
 
-    ${pkgs.lib.getExe pkgs.bash} --norc ${runCommand}
+    ''${SHELL:-${pkgs.lib.getExe pkgs.bash} --norc} ${runCommand}
   '';
 
 in

@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { nixpkgs }:
+  outputs = { self, nixpkgs }:
 
     let
       # Flake system
